@@ -9,14 +9,12 @@ var ticTacToe = function(element, options) {
         turn = "player",
         gameComplete = false,
         winner = null,
-        message = "";
-        
+        message = "";        
         
     // get options or set defaults
-    // e.g. board size and number of in a row to win? (super advanced)
-    // TODO: implement this
     var options = options || {} ;
     options.ai = options.ai || "smart";
+    options.firstTurn = options.firstTurn || "random";
     
     // create DOM elements
     var DOM_board = quickCreateElement("div", "board"),
@@ -29,8 +27,7 @@ var ticTacToe = function(element, options) {
     // organise DOM elements: add 9 squares to board    
     for (var i=0; i<9; i++) {
         DOM_board.appendChild(DOM_squares[i]);
-    }   
-    
+    }      
     
     // HELPER FUNCTIONS
     
@@ -42,7 +39,7 @@ var ticTacToe = function(element, options) {
         return ret
     }
     
-    // function to check if an array contains element
+    // function to check if an array contains an element
     function contains(arr, el) {
         for (var i = 0; i < arr.length; i++) {
             if (arr[i] == el) { return true }
@@ -89,9 +86,7 @@ var ticTacToe = function(element, options) {
             gameComplete = true;
             winner = "tie";
         }
-        else {
-            // do nothing and continue
-        }
+        // else do nothing and continue
     }
     
     function computerRandomChoice() {
@@ -153,25 +148,24 @@ var ticTacToe = function(element, options) {
         var index = freePositions.indexOf(positionChoice);
         // this splice returns an array of 1 element
         var positionChoice = freePositions.splice(index, 1)[0];
-        DOM_squares[positionChoice] = "X";
+        DOM_squares[positionChoice].innerHTML = "X";
         playerPositions.push(positionChoice);
         
         evaluate();
         turn = "computer";
         continueGame();
-
     };
     
     function showHover () {
-        var self = this;
-        self.innerHTML = "X";
+        // also add class? for additional styling
+        this.innerHTML = "X";
     }
     
     function hideHover () {
-        var self = this;
-        self.innerHTML = "";
+        this.innerHTML = "";
     }
     
+    // add event listeners for hovering and clicking for certain squares
     function addPlayerMoveListeners(positions) {
         for (var i=0; i<positions.length; i++) {
             var square = DOM_squares[positions[i]];
@@ -222,6 +216,7 @@ var ticTacToe = function(element, options) {
     // START GAME
     reset();
     loadInitialDOM();
+    // getFirstTurn()
     continueGame();
 
 };
