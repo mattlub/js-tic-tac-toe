@@ -114,7 +114,6 @@ var ticTacToe = function(element, options) {
             // that produces a winner
             var testArray = playerPositions.slice()
             testArray.push(freePositions[i]);
-            console.log(testArray);
             if (containsWinner(testArray)) {
                 // splice to return the correct position and also remove it from freePositions
                 return freePositions.splice(i,1)
